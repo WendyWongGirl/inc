@@ -26,14 +26,15 @@ CREATE TABLE `book`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '书名',
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态',
   `user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '借书人',
+  `del` int(11) DEFAULT NULL COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '图书' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, '钢铁是怎样练成的1', '借出', '张三');
-INSERT INTO `book` VALUES (2, '书名2', '在管', '无');
+INSERT INTO `book` VALUES (1, '钢铁是怎样练成的', '借出', '张三');
+INSERT INTO `book` VALUES (2, 'Thinking in Java', '在管', '无');
 
 -- ----------------------------
 -- Table structure for sys_menu
