@@ -3,16 +3,17 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50734
+ Source Server Version : 5738
  Source Host           : localhost:3306
  Source Schema         : inc
 
  Target Server Type    : MySQL
- Target Server Version : 50734
+ Target Server Version : 5738
  File Encoding         : 65001
 
- Date: 14/06/2021 21:39:10
+ Date: 10/06/2022 15:39:10
 */
+use inc;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -24,17 +25,19 @@ DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '书名',
-  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态',
+  `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类别',
   `user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '借书人',
-  `del` int(11) DEFAULT NULL COMMENT '是否删除',
+  `status` int(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态（0-借出；1-在管）',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `del` int(11) DEFAULT NULL COMMENT '是否删除（逻辑删除 0-删除；1-未删除）',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '图书' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, '钢铁是怎样练成的', '借出', '张三');
-INSERT INTO `book` VALUES (2, 'Thinking in Java', '在管', '无');
+INSERT INTO `book` VALUES (1, '钢铁是怎样练成的', '课外读物', '张三', '借出');
+INSERT INTO `book` VALUES (2, 'Thinking in Java', 'IT技术', '无', '在管');
 
 -- ----------------------------
 -- Table structure for sys_menu
