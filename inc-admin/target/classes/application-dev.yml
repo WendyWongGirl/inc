@@ -5,8 +5,7 @@ spring:
     password: root@123!
 app:
   #服务器配置
-  #filePath: /Users/zhangdi/home/proj/inc/uploaded_files/
   filePath: D:/project/practical/files/uploaded_files/
   #计数文件路径
-  countFilePath: D:/project/practical/files/pre_files/incfile/
+  countFilePath: D:/project/practical/files/inc_files/
   pre: D:/project/practical/files/pre_files/
