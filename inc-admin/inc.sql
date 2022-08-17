@@ -44,8 +44,8 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES (1, '钢铁是怎样练成的', '课外读物', '张三', '借出');
-INSERT INTO `book` VALUES (2, 'Thinking in Java', 'IT技术', '无', '在管');
+INSERT INTO `book` VALUES (1, '钢铁是怎样练成的', '课外读物', '张三', 0, null, 1);
+INSERT INTO `book` VALUES (2, 'Thinking in Java', 'IT技术', '无', 1, null, 1);
 
 -- ----------------------------
 -- Table structure for sys_menu
