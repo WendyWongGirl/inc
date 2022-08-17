@@ -13,6 +13,12 @@
 
  Date: 10/06/2022 15:39:10
 */
+
+-- Create the database
+CREATE DATABASE `inc` default character set utf8 COLLATE utf8_general_ci; /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+
+-- Use the database
 use inc;
 
 SET NAMES utf8mb4;
@@ -27,9 +33,9 @@ CREATE TABLE `book`  (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '书名',
   `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '类别',
   `user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '借书人',
-  `status` int(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态（0-借出；1-在管）',
+  `status` int(11) DEFAULT 1 COMMENT '状态:0-借出;1-在管',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `del` int(11) DEFAULT NULL COMMENT '是否删除（逻辑删除 0-删除；1-未删除）',
+  `del` int(11) DEFAULT 1 COMMENT '是否删除-逻辑删除:0-删除;1-未删除）',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '图书' ROW_FORMAT = Dynamic;
 
