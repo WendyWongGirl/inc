@@ -13,6 +13,8 @@
 
  Date: 10/06/2022 15:39:10
 */
+-- Check the database if exist
+DROP DATABASE IF EXISTS `inc`;
 
 -- Create the database
 CREATE DATABASE `inc` default character set utf8 COLLATE utf8_general_ci; /*!40100 DEFAULT CHARACTER SET utf8 */;
