@@ -27,5 +27,16 @@ public class AuthConfig implements WebMvcConfigurer {
 
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
+
+        //swagger 相关
+        addInterceptor.excludePathPatterns("/");
+        addInterceptor.excludePathPatterns("/csrf");
+
+        addInterceptor.excludePathPatterns("/doc.html");
+        addInterceptor.excludePathPatterns("/swagger-ui.html");
+        addInterceptor.excludePathPatterns("/swagger/v2/api-docs/**");
+        addInterceptor.excludePathPatterns("/v2/**");
+        addInterceptor.excludePathPatterns("/webjars/**");
+        addInterceptor.excludePathPatterns("/swagger-resources/**");
     }
 }

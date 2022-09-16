@@ -1,14 +1,17 @@
 package com.inc.admin.config;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -21,11 +24,18 @@ import java.util.List;
  * Swagger配置类
  */
 @Configuration
+//@EnableWebMvc
 @EnableSwagger2
-public class Swagger2Config{
+public class Swagger2Config implements WebMvcConfigurer {
 
     @Bean
     public Docket apiConfig() {
+        ParameterBuilder ticketPar = new ParameterBuilder();
+        List<Parameter> pars = new ArrayList<>();
+        ticketPar.name("token").description("user token")
+                .modelRef(new ModelRef("string")).parameterType("header")
+                .required(false).build(); //header中的ticket参数非必填，传空也可以
+        pars.add(ticketPar.build());  //根据每个方法名也知道当前方法在设置什么参数
         //创建基于Swagger2的配置文件
         return new Docket(DocumentationType.SWAGGER_2)
                 .pathMapping("/")
@@ -33,12 +43,14 @@ public class Swagger2Config{
                 .apiInfo(apiInfo())
                 .select()
                 // 这里采用包含注解的方式来确定要显示的接口
-//                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .apis(RequestHandlerSelectors.basePackage("com.inc.admin"))
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+//                .apis(RequestHandlerSelectors.basePackage("com.inc.admin"))
                 // 这里采用包扫描的方式来确定要显示的接口
 //                .apis(any())
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.any())  //其它写法：.paths(regex("^.*(?<!error)$"))
                 .build()
+                .globalOperationParameters(pars)
+                //增加Authorization请求头
                 .securityContexts(securityContexts())
                 .securitySchemes(securitySchemes());
     }
@@ -61,7 +73,7 @@ public class Swagger2Config{
     private List<SecurityContext> securityContexts() {
         //设置需要登录认证的路径
         List<SecurityContext> result = new ArrayList<>();
-        result.add(getContextByPath("/.*"));
+        result.add(getContextByPath("^(?!auth).*$"));  // "/.*"
         return result;
     }
 
@@ -88,35 +100,22 @@ public class Swagger2Config{
         //设置请求头信息
         List<ApiKey> result = new ArrayList<>();
         ApiKey apiKey = new ApiKey("Authorization", "Authorization", "header");
+//        ApiKey apiKey = new ApiKey("x-auth-token", "x-auth-token", "header");
         result.add(apiKey);
         return result;
     }
+/*
+    废弃，已实现了WebMvcConfigurer 或者 用注解@EnableWebMvc修饰过，不需要此方法。
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations(
+                "classpath:/static/");
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations(
+                "classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations(
+                "classpath:/META-INF/resources/webjars/");
+        WebMvcConfigurer.super.addResourceHandlers(registry);
+    }
+*/
 
-//    @Bean
-//    public Docket CreateRestApi() {
-//        ParameterBuilder ticketPar = new ParameterBuilder();
-//        List<Parameter> pars = new ArrayList<>();
-//        ticketPar.name("token").description("user token")
-//                .modelRef(new ModelRef("string")).parameterType("header")
-//                .required(false).build(); //header中的ticket参数非必填，传空也可以
-//        pars.add(ticketPar.build());  //根据每个方法名也知道当前方法在设置什么参数
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .apiInfo(apiInfo())
-//                .select()
-//                .apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any())
-//                .build()
-//                .globalOperationParameters(pars);
-//    }
-
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/**").addResourceLocations(
-//                "classpath:/static/");
-//        registry.addResourceHandler("swagger-ui.html").addResourceLocations(
-//                "classpath:/META-INF/resources/");
-//        registry.addResourceHandler("/webjars/**").addResourceLocations(
-//                "classpath:/META-INF/resources/webjars/");
-//        WebMvcConfigurer.super.addResourceHandlers(registry);
-//    }
 }
