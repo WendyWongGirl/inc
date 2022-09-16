@@ -85,4 +85,11 @@ public class R extends HashMap<String, Object> {
         super.put(key, value);
         return this;
     }
+
+    public static class error extends R {
+        public error(String msg) {
+            R r = new R();
+            r.put("msg", msg);
+        }
+    }
 }
